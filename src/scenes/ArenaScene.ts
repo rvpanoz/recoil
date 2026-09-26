@@ -6,6 +6,8 @@ import { Player } from '../entities/Player';
 export class ArenaScene extends Phaser.Scene {
   static readonly KEY = 'ArenaScene';
 
+  private player!: Player;
+
   constructor() {
     super(ArenaScene.KEY);
   }
@@ -23,6 +25,13 @@ export class ArenaScene extends Phaser.Scene {
     );
     this.matter.add.gameObject(floorRect, { isStatic: true });
 
-    new Player(this);
+    this.player = new Player(this);
+  }
+
+  update(): void {
+    const pointer = this.input.activePointer;
+    // worldX/worldY only refresh when the pointer moves; recompute so aim stays right if the camera moves.
+    pointer.updateWorldPoint(this.cameras.main);
+    this.player.aimAt(pointer.worldX, pointer.worldY);
   }
 }

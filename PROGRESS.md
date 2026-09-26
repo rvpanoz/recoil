@@ -7,12 +7,12 @@ The plan is in [PLAN.md](./PLAN.md); conventions are in [CLAUDE.md](./CLAUDE.md)
 
 ## Current status
 
-|                   |                                                                                      |
-| ----------------- | ------------------------------------------------------------------------------------ |
-| **Current phase** | Phase 1 — Core Combat Prototype ⭐                                                   |
-| **Next task**     | Aim: the gun rotates toward the mouse pointer (in **world** coordinates, not screen) |
-| **Live build**    | https://rvpanoz.github.io/recoil/                                                    |
-| **Last updated**  | 2026-09-26                                                                           |
+|                   |                                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------- |
+| **Current phase** | Phase 1 — Core Combat Prototype ⭐                                                        |
+| **Next task**     | Fire: left click → spawn a bullet and apply recoil opposite the aim, via `core/recoil.ts` |
+| **Live build**    | https://rvpanoz.github.io/recoil/                                                         |
+| **Last updated**  | 2026-09-26                                                                                |
 
 ---
 
@@ -38,7 +38,7 @@ Legend: ⚪ Pending · 🟡 In progress · ✅ Done · ⛔ Blocked
 **Movement**
 
 - [x] Player: a circular Matter body with gravity, a little bounce, and friction
-- [ ] Aim: the gun rotates toward the mouse pointer (in **world** coordinates, not screen)
+- [x] Aim: the gun rotates toward the mouse pointer (in **world** coordinates, not screen)
 - [ ] Fire: left click → spawn a bullet and apply recoil opposite the aim, via `core/recoil.ts`
 - [ ] Clamp max speed so the player can't break the physics
 - [ ] One weapon to start: the **shotgun** (big recoil, spread), so both jobs are obvious
@@ -154,7 +154,10 @@ Newest first. Keep each entry short: what was done, what's next, anything surpri
 - Stutter fix: physics now steps at a fixed 120 Hz (branch `phase-1/fixed-timestep`, stacked on `phase-1/player-body`).
 - Playtest: the 120 Hz step is smooth on the developer's screen. The bounce felt too dead at restitution 0.4
   (first bounce ~16% of the drop); raised to 0.6 (~36%).
-- **Next:** Aim: the gun rotates toward the mouse pointer (world coordinates).
+- Aim (branch `phase-1/aim`): a grey-box gun `Rectangle` pivots on the ball's centre and follows the pointer in world
+  coordinates. `updateWorldPoint` runs every frame because `worldX` only refreshes when the pointer moves.
+- Opened one PR with the plan rework, player, 120 Hz step and aim; playtest the aim before merging.
+- **Next:** Fire: left click → spawn a bullet and apply recoil opposite the aim, via `core/recoil.ts`.
 
 ### 2026-09-26 — Phase 0 setup
 

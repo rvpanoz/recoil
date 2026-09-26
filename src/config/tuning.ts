@@ -38,4 +38,10 @@ export const TUNING = {
     /** Air drag, 0 to 1: share of velocity lost per 16.7 ms (Matter scales it to the step length). Matter's default. */
     frictionAir: 0.01,
   },
+  gun: {
+    /** Measured from the ball's centre, so the barrel sticks out (lengthPx - player.radiusPx). */
+    lengthPx: 44,
+    thicknessPx: 12,
+    color: 0xd0d4dc,
+  },
 } as const;
