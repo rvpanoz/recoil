@@ -7,44 +7,46 @@ The plan is in [PLAN.md](./PLAN.md); conventions are in [CLAUDE.md](./CLAUDE.md)
 
 ## Current status
 
-|                   |                                                                             |
-| ----------------- | --------------------------------------------------------------------------- |
-| **Current phase** | Phase 0 — Project Setup                                                     |
-| **Next task**     | Make the repo public, enable Pages, re-run the deploy, confirm the live URL |
-| **Live build**    | _not deployed yet_                                                          |
-| **Last updated**  | 2026-09-26                                                                  |
+|                   |                                                                                |
+| ----------------- | ------------------------------------------------------------------------------ |
+| **Current phase** | Phase 1 — Core Feel Prototype ⭐                                               |
+| **Next task**     | Player: a circular Matter body with gravity, bounce (restitution) and friction |
+| **Live build**    | https://rvpanoz.github.io/recoil/                                              |
+| **Last updated**  | 2026-09-26                                                                     |
 
 ---
 
 ## Phase overview
 
-| Phase | Name                     | Status         | Started    | Finished |
-| ----- | ------------------------ | -------------- | ---------- | -------- |
-| 0     | Project Setup            | 🟡 In progress | 2026-09-26 |          |
-| 1     | Core Feel Prototype ⭐   | ⚪ Pending     |            |          |
-| 2     | Weapons & Ammo           | ⚪ Pending     |            |          |
-| 3     | Juice & Comedy           | ⚪ Pending     |            |          |
-| 4     | Hazards, Enemies & Goals | ⚪ Pending     |            |          |
-| 5     | Levels & Progression     | ⚪ Pending     |            |          |
-| 6     | Menus, Settings & Polish | ⚪ Pending     |            |          |
-| 7     | Release                  | ⚪ Pending     |            |          |
+| Phase | Name                     | Status     | Started    | Finished   |
+| ----- | ------------------------ | ---------- | ---------- | ---------- |
+| 0     | Project Setup            | ✅ Done    | 2026-09-26 | 2026-09-26 |
+| 1     | Core Feel Prototype ⭐   | ⚪ Pending |            |            |
+| 2     | Weapons & Ammo           | ⚪ Pending |            |            |
+| 3     | Juice & Comedy           | ⚪ Pending |            |            |
+| 4     | Hazards, Enemies & Goals | ⚪ Pending |            |            |
+| 5     | Levels & Progression     | ⚪ Pending |            |            |
+| 6     | Menus, Settings & Polish | ⚪ Pending |            |            |
+| 7     | Release                  | ⚪ Pending |            |            |
 
 Legend: ⚪ Pending · 🟡 In progress · ✅ Done · ⛔ Blocked
 
 ---
 
-## Current phase checklist — Phase 0
+## Current phase checklist — Phase 1
 
-- [x] Scaffold Vite + TypeScript (strict) + Phaser 4
-- [x] Configure Matter physics + debug rendering in dev
-- [x] ESLint + Prettier + Vitest wired into npm scripts (`check` script included)
-- [x] Folder structure + placeholder `BootScene` → `LevelScene`
-- [x] GitHub Actions: lint + typecheck + test + build — first run on `main` passed the `build` job
-- [ ] Auto-deploy `main` to GitHub Pages — deploy job failed (404): Pages is not enabled, and the free plan only
-      allows Pages on public repos. Make the repo public, enable Pages, re-run the failed job
-- [x] Optional: review Phaser's AI agent skills — 28 skills ship in `node_modules/phaser/skills/`; pointer added to CLAUDE.md
+- [ ] Player: a circular Matter body with gravity, bounce (restitution) and friction
+- [ ] Aim: the gun sprite rotates toward the mouse pointer (in **world** coordinates, not screen)
+- [ ] Fire: left click → apply velocity opposite the aim direction via `core/recoil.ts`
+- [ ] Clamp max speed so the player can't break the physics
+- [ ] One test arena: floor, walls, ceiling, a few platforms, a goal zone (sensor)
+- [ ] Instant restart on `R`
+- [ ] Camera follows the player with a little smoothing
+- [ ] **Live tuning panel** (lil-gui): gravity, recoil strength, max speed, air drag, restitution
+- [ ] Fixed physics timestep so feel doesn't change with frame rate (check the Phaser 4 Matter config docs)
+- [ ] Unit tests for `computeRecoil`
 
-**Exit criterion:** pushing to `main` produces a live URL showing a rectangle falling onto a floor.
+**Exit criterion:** you (and one other person) happily fly around the grey arena for 2+ minutes without being asked to.
 
 ---
 
@@ -131,10 +133,9 @@ Newest first. Keep each entry short: what was done, what's next, anything surpri
   block lists `lint` (ESLint + Prettier) and `format`, duplicate "What not to do" section removed.
 - Surprise: TS 7 is out but typescript-eslint doesn't support it yet, so TS is pinned to 6.0.
 - Surprise: Phaser ships 28 AI agent skills in its npm package (`node_modules/phaser/skills/`).
-- **Next:**
-  1. Confirm the re-run deploy succeeded (repo is now public, Pages enabled with `build_type=workflow`).
-  2. Merge `phase-0/progress-update` into `main`.
-  3. Open the live URL and check the Phase 0 exit criterion, then start Phase 1.
+- Re-run deploy succeeded. **Phase 0 exit criterion met:** https://rvpanoz.github.io/recoil/ shows the box falling
+  onto the floor (confirmed by the developer). All Phase 0 tasks done, including auto-deploy of `main`.
+- **Next:** Phase 1 — player as a circular Matter body.
 
 ### 2026-09-26
 
