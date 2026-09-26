@@ -25,7 +25,8 @@ npm run dev         # Vite dev server with HMR
 npm run build       # Production build to dist/
 npm run preview     # Serve the production build
 npm run typecheck   # tsc --noEmit
-npm run lint        # ESLint
+npm run lint        # ESLint + Prettier check
+npm run format      # Prettier --write
 npm run test        # Vitest (unit tests for src/core)
 npm run check       # typecheck + lint + test (run before every commit)
 ```
@@ -50,6 +51,32 @@ npm run check       # typecheck + lint + test (run before every commit)
 - Prefer small pure functions in `core/` over methods with hidden state.
 - Keep the diff focused. Don't reformat or refactor unrelated files.
 
+## Git & Workflow Guidelines
+
+- **Every new feature works on its own branch, branched off `main`.** Never
+  commit feature work directly to `main`. Create the branch before the first
+  edit: `git checkout -b <phase>/<short-name>`. One branch per step or feature,
+  merged back when its step is done and `npm run check` passes.
+- All commit messages must strictly contain only the functional description of the changes.
+- No trailers. Write commit messages and PR descriptions in plain English.
+
+## Agent Guardrails & Cost Optimization
+
+- **Maximum 2 Tool Loops:** You are strictly forbidden from executing more than 2 tool loops (e.g., read file -> edit file) in a single turn without pausing to ask for human permission.
+- **No Autonomous Debugging Loops:** If a terminal command or test fails, do NOT attempt to read more files or fix the error on your own. Stop immediately, output the error log, and hand control back to the user.
+- **No Full File Rewrites:** When editing a file, strictly use precise diff patches. Never output an entire 100+ line file if only 5 lines are changing.
+
+## Coding Standards (Uncle Bob Clean Code)
+
+- **Meaningful Names:** Intention-revealing, pronounceable names. Avoid abbreviations.
+- **Small Functions:** Do one thing, do it well, and keep them short (< 20 lines).
+- **Single Level of Abstraction:** Do not mix high-level logic with low-level implementation details.
+- **DRY:** Eliminate duplicate logic.
+- **Self-Documenting Code:** Explain "why" in comments, not "what" or "how".
+- **Function Arguments:** Prefer 0–2 arguments. Wrap 3+ in a dedicated object type.
+- **Error Handling:** Isolate `try/catch` blocks; don't mix them with core logic.
+- **Boy Scout Rule:** Leave modified files cleaner than you found them.
+
 ## Game-dev gotchas (read these)
 
 - **Pointer coordinates:** aim using `pointer.worldX/worldY` (or `pointer.positionToCamera(camera)`), not `pointer.x/y`,
@@ -67,6 +94,8 @@ npm run check       # typecheck + lint + test (run before every commit)
 - **localStorage can throw** (private mode, blocked storage). Always wrap it in try/catch with a safe default.
 - When unsure about a Phaser 4 API, check the official docs/examples rather than Phaser 3 answers; the renderer and
   some APIs (for example FX/masks → Filters) changed in v4.
+  Phaser ships agent skills for every subsystem in `node_modules/phaser/skills/<topic>/SKILL.md` (for example
+  `physics-matter`, `scenes`, `v3-to-v4-migration`); they match the installed version, so read those first.
 
 ## Testing
 
