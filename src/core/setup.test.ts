@@ -7,9 +7,9 @@ describe('tuning sanity', () => {
     expect(TUNING.physics.gravityY).toBeGreaterThan(0);
   });
 
-  it('spawns the falling box above the floor', () => {
+  it('spawns the player above the floor', () => {
     const floorTopPx = TUNING.view.heightPx - TUNING.floor.heightPx;
-    const boxBottomPx = TUNING.fallingBox.spawnYPx + TUNING.fallingBox.heightPx / 2;
-    expect(boxBottomPx).toBeLessThan(floorTopPx);
+    const playerBottomPx = TUNING.player.spawnYPx + TUNING.player.radiusPx;
+    expect(playerBottomPx).toBeLessThan(floorTopPx);
   });
 });

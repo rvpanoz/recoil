@@ -20,12 +20,17 @@ export const TUNING = {
     heightPx: 64,
     color: 0x4a4f63,
   },
-  fallingBox: {
-    widthPx: 64,
-    heightPx: 64,
+  player: {
+    radiusPx: 24,
+    /** Horizontal centre of the 1280 px view. */
+    spawnXPx: 640,
     spawnYPx: 120,
-    /** Small initial tilt so the box lands on a corner and tumbles. */
-    spawnAngleRad: 0.3,
-    color: 0xff6b35,
+    color: 0x9ab8d6,
+    /** Bounciness, 0 (dead stop) to 1 (no energy lost). Matter uses the higher of the two touching bodies. */
+    restitution: 0.4,
+    /** Grip against surfaces while sliding, 0 to 1. Low so the ball rolls and skids after landing. */
+    friction: 0.05,
+    /** Air drag, 0 to 1: share of velocity lost per 16.7 ms (Matter scales it to the step length). Matter's default. */
+    frictionAir: 0.01,
   },
 } as const;
