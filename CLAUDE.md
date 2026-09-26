@@ -36,11 +36,11 @@ npm run check       # typecheck + lint + test (run before every commit)
 - **`src/core/` is pure TypeScript.** No Phaser imports, no DOM, no globals. All game rules (recoil math, weapon state,
   scoring, unlocks) go here, with unit tests alongside.
 - **`src/entities/` and `src/scenes/` stay thin.** Read input → call core → apply the result to Matter bodies and sprites.
-- **Data over code.** Weapons live in `src/data/weapons.ts`; levels come from Tiled JSON + `src/data/levels.ts`.
-  Adding a weapon or level should not require touching engine code.
+- **Data over code.** Weapons live in `src/data/weapons.ts`; arenas come from Tiled JSON + `src/data/arenas.ts`.
+  Adding a weapon, enemy or arena should not require touching engine code.
 - **All tuning constants live in `src/config/tuning.ts`.** Never inline magic numbers for gravity, recoil, speeds, timings.
 - **Matter physics only.** Never enable or mix in Arcade physics.
-- `HudScene` runs in parallel over `LevelScene`; they communicate through events, not direct references.
+- `HudScene` runs in parallel over `ArenaScene`; they communicate through events, not direct references.
 
 ## Code conventions
 
@@ -86,7 +86,7 @@ npm run check       # typecheck + lint + test (run before every commit)
   reuse vectors and pool bullets, shells and particles.
 - **Tunnelling:** fast small bodies can pass through thin walls. Clamp player max speed and keep walls thick
   rather than adding hacks.
-- **Collision filtering:** use the collision categories defined in one place (player, enemy, projectile, world, sensor).
+- **Collision filtering:** use the collision categories defined in one place (player, enemy, player bullet, enemy bullet, world, pickup, sensor).
   Don't add ad-hoc checks on body labels in collision handlers.
 - **Scene restarts:** `scene.restart()` must leave no leaked listeners, timers or tweens. Clean up in the scene's
   `shutdown` event.

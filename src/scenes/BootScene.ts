@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { LevelScene } from './LevelScene';
+import { ArenaScene } from './ArenaScene';
 
 /** Loads assets (none yet) and hands off to the first gameplay scene. */
 export class BootScene extends Phaser.Scene {
@@ -10,6 +10,6 @@ export class BootScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.scene.start(LevelScene.KEY);
+    this.scene.start(ArenaScene.KEY);
   }
 }
