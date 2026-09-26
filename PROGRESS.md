@@ -7,12 +7,12 @@ The plan is in [PLAN.md](./PLAN.md); conventions are in [CLAUDE.md](./CLAUDE.md)
 
 ## Current status
 
-|                   |                                                                                                         |
-| ----------------- | ------------------------------------------------------------------------------------------------------- |
-| **Current phase** | Phase 1 — Core Combat Prototype ⭐                                                                      |
-| **Next task**     | Player: a circular Matter body with gravity, a little bounce, and friction (awaiting playtest sign-off) |
-| **Live build**    | https://rvpanoz.github.io/recoil/                                                                       |
-| **Last updated**  | 2026-09-26                                                                                              |
+|                   |                                                                                      |
+| ----------------- | ------------------------------------------------------------------------------------ |
+| **Current phase** | Phase 1 — Core Combat Prototype ⭐                                                   |
+| **Next task**     | Aim: the gun rotates toward the mouse pointer (in **world** coordinates, not screen) |
+| **Live build**    | https://rvpanoz.github.io/recoil/                                                    |
+| **Last updated**  | 2026-09-26                                                                           |
 
 ---
 
@@ -37,7 +37,7 @@ Legend: ⚪ Pending · 🟡 In progress · ✅ Done · ⛔ Blocked
 
 **Movement**
 
-- [ ] Player: a circular Matter body with gravity, a little bounce, and friction
+- [x] Player: a circular Matter body with gravity, a little bounce, and friction
 - [ ] Aim: the gun rotates toward the mouse pointer (in **world** coordinates, not screen)
 - [ ] Fire: left click → spawn a bullet and apply recoil opposite the aim, via `core/recoil.ts`
 - [ ] Clamp max speed so the player can't break the physics
@@ -57,7 +57,7 @@ Legend: ⚪ Pending · 🟡 In progress · ✅ Done · ⛔ Blocked
 - [ ] One grey-box arena: floor, walls, a ceiling, 2–3 floating platforms
 - [ ] Camera: fixed on the whole arena (arenas fit on one screen, or follow with smoothing if larger)
 - [ ] **Live tuning panel** (lil-gui): gravity, recoil, max speed, bullet knockback, enemy speed, spawn rate, ammo drop amount
-- [ ] Fixed physics timestep so feel doesn't change with frame rate (check the Phaser 4 Matter config docs)
+- [x] Fixed physics timestep so feel doesn't change with frame rate (check the Phaser 4 Matter config docs)
 - [ ] Unit tests for `computeRecoil`, health/invulnerability, and ammo accounting
 
 **Exit criterion:** you (and one other person) survive as long as you can for 3+ minutes, die laughing,
@@ -85,23 +85,24 @@ Record the values that felt right, so they survive refactors. Source of truth is
 
 Record why things were decided, so they're not re-litigated later.
 
-| Date       | Decision                                                                           | Why                                                                                                         |
-| ---------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| 2026-09-26 | Phaser 4 + Matter.js, TypeScript, Vite                                             | Mature 2D framework with TS types and built-in rigid-body physics needed for recoil, knockback and ragdolls |
-| 2026-09-26 | No walking, jumping or dodge; weapons are the only movement                        | Core design pillar, the source of the comedy                                                                |
-| 2026-09-26 | Game rules in pure `src/core/`, Phaser layer kept thin                             | Testable logic, clean separation                                                                            |
-| 2026-09-26 | TypeScript pinned to `~6.0`, not 7.x                                               | typescript-eslint 8.70 supports TS `<6.1`; the Vite template pins 6.0 too. Revisit when it supports 7       |
-| 2026-09-26 | Unit tests live next to the code (`src/**/*.test.ts`); no top-level `tests/`       | CLAUDE.md says tests sit alongside core; PLAN.md §3 listed `tests/`, colocating won                         |
-| 2026-09-26 | `lint` = ESLint + `prettier --check`                                               | Formatting is enforced by `check` and CI without a separate script                                          |
-| 2026-09-26 | ESLint guardrails: no `phaser` imports in `src/core`, no default exports in `src`  | Enforces CLAUDE.md architecture rules mechanically instead of by review                                     |
-| 2026-09-26 | Vite `base` is `/recoil/` for builds and `vite preview`                            | GitHub Pages serves from `/recoil/`; dev stays at `localhost:5173/`                                         |
-| 2026-09-26 | Placeholder shapes are `Rectangle` game objects with Matter bodies                 | Visible in production where Matter debug rendering is off                                                   |
-| 2026-09-26 | Physics debug rendering = `import.meta.env.DEV`                                    | On in `npm run dev`, stripped from production builds                                                        |
-| 2026-09-26 | Use Phaser's bundled skills from `node_modules/phaser/skills/`, don't copy them    | Always match the installed Phaser version; no extra files to maintain                                       |
-| 2026-09-26 | `chunkSizeWarningLimit` raised to 1600 kB                                          | Phaser alone is ~1.4 MB minified (~360 kB gzip); the default warning is noise                               |
-| 2026-09-26 | Pivoted from a physics platformer (goal zones, par shots) to an arena wave shooter | The game must be a shooter first; enemies and combat belong in the core loop from Phase 1                   |
-| 2026-09-26 | Side view with gravity, not top-down                                               | Gravity makes running out of ammo mean falling, which drives both tension and comedy                        |
-| 2026-09-26 | Enemies drop ammo; pistol has infinite ammo                                        | Kills are fuel, rewarding aggression, while the pistol prevents a full softlock                             |
+| Date       | Decision                                                                           | Why                                                                                                                                                                        |
+| ---------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-26 | Phaser 4 + Matter.js, TypeScript, Vite                                             | Mature 2D framework with TS types and built-in rigid-body physics needed for recoil, knockback and ragdolls                                                                |
+| 2026-09-26 | No walking, jumping or dodge; weapons are the only movement                        | Core design pillar, the source of the comedy                                                                                                                               |
+| 2026-09-26 | Game rules in pure `src/core/`, Phaser layer kept thin                             | Testable logic, clean separation                                                                                                                                           |
+| 2026-09-26 | TypeScript pinned to `~6.0`, not 7.x                                               | typescript-eslint 8.70 supports TS `<6.1`; the Vite template pins 6.0 too. Revisit when it supports 7                                                                      |
+| 2026-09-26 | Unit tests live next to the code (`src/**/*.test.ts`); no top-level `tests/`       | CLAUDE.md says tests sit alongside core; PLAN.md §3 listed `tests/`, colocating won                                                                                        |
+| 2026-09-26 | `lint` = ESLint + `prettier --check`                                               | Formatting is enforced by `check` and CI without a separate script                                                                                                         |
+| 2026-09-26 | ESLint guardrails: no `phaser` imports in `src/core`, no default exports in `src`  | Enforces CLAUDE.md architecture rules mechanically instead of by review                                                                                                    |
+| 2026-09-26 | Vite `base` is `/recoil/` for builds and `vite preview`                            | GitHub Pages serves from `/recoil/`; dev stays at `localhost:5173/`                                                                                                        |
+| 2026-09-26 | Placeholder shapes are `Rectangle` game objects with Matter bodies                 | Visible in production where Matter debug rendering is off                                                                                                                  |
+| 2026-09-26 | Physics debug rendering = `import.meta.env.DEV`                                    | On in `npm run dev`, stripped from production builds                                                                                                                       |
+| 2026-09-26 | Use Phaser's bundled skills from `node_modules/phaser/skills/`, don't copy them    | Always match the installed Phaser version; no extra files to maintain                                                                                                      |
+| 2026-09-26 | `chunkSizeWarningLimit` raised to 1600 kB                                          | Phaser alone is ~1.4 MB minified (~360 kB gzip); the default warning is noise                                                                                              |
+| 2026-09-26 | Pivoted from a physics platformer (goal zones, par shots) to an arena wave shooter | The game must be a shooter first; enemies and combat belong in the core loop from Phase 1                                                                                  |
+| 2026-09-26 | Side view with gravity, not top-down                                               | Gravity makes running out of ammo mean falling, which drives both tension and comedy                                                                                       |
+| 2026-09-26 | Enemies drop ammo; pistol has infinite ammo                                        | Kills are fuel, rewarding aggression, while the pistol prevents a full softlock                                                                                            |
+| 2026-09-26 | Physics steps at a fixed 120 Hz (`TUNING.physics.stepHz` → Matter `runner.fps`)    | The default fixed 60 Hz step stutters on 120 Hz displays; 120 Hz gives 1 or 2 steps per frame on 120/60 Hz screens and halves tunnelling risk. Render interpolation parked |
 
 ---
 
@@ -115,9 +116,8 @@ Record why things were decided, so they're not re-litigated later.
 
 ## Known issues / bugs
 
-- Motion looks stuttery in playtest. Likely cause: Matter steps at a fixed 60 Hz with no render interpolation, so on a
-  120 Hz display the player moves only every other frame (display rate not yet confirmed). Fix belongs to the Phase 1
-  "Fixed physics timestep" task.
+- `src/core/setup.test.ts` is a Phase 0 placeholder that only checks tuning values. Delete it in the "Fire" task, in
+  the same commit that adds the first real `computeRecoil` tests (Vitest fails when there are no test files).
 
 ---
 
@@ -130,6 +130,7 @@ Ideas that don't belong to the current phase. Review at the start of each new ph
 - Rubber-chicken gun with bouncing, squawking projectiles
 - Endless mode with a global leaderboard
 - Local co-op: two players whose recoil can knock each other around
+- Render interpolation (draw bodies between their last two physics positions) if 144 Hz+ displays still stutter
 - Split Phaser into its own vendor chunk so game-code updates don't re-download the engine (Phase 6/7 perf pass)
 
 ---
@@ -149,7 +150,11 @@ Newest first. Keep each entry short: what was done, what's next, anything surpri
 - Playtest: the ball falls, bounces and settles, but motion isn't smooth (see Known issues).
 - Surprise: Phaser 4 bundles Matter 0.20, whose runner already steps physics at a fixed 60 Hz and scales gravity,
   velocity and air drag by step length. What's missing for smooth motion is render interpolation, not a fixed step.
-- **Next:** choose the smoothness fix (120 Hz physics step vs render interpolation), then sign off the player task.
+- Committed the plan rework and the player on `phase-1/player-body`.
+- Stutter fix: physics now steps at a fixed 120 Hz (branch `phase-1/fixed-timestep`, stacked on `phase-1/player-body`).
+- Playtest: the 120 Hz step is smooth on the developer's screen. The bounce felt too dead at restitution 0.4
+  (first bounce ~16% of the drop); raised to 0.6 (~36%).
+- **Next:** Aim: the gun rotates toward the mouse pointer (world coordinates).
 
 ### 2026-09-26 — Phase 0 setup
 

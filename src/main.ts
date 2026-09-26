@@ -17,6 +17,7 @@ new Phaser.Game({
     default: 'matter',
     matter: {
       gravity: { x: 0, y: TUNING.physics.gravityY },
+      runner: { fps: TUNING.physics.stepHz },
       // Draws body outlines; stripped from production builds.
       debug: import.meta.env.DEV,
     },
